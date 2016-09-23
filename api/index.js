@@ -1,14 +1,43 @@
-'use strict';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-const express = require('express'),
-    app = express();
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+var cors = require('cors');
+var helmet = require('helmet');
 
 
-// Mounting the API to the current version (path)
-app.use('/', function (req, res) {
-    res.send({});
-});
+var app = express();
+app.use(cors());
+app.use(helmet());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(9000, function () {
-    console.log(' The app is up on port: ', 9000);
-});
+// load config
+app.set('configuration', require('./config'));
+
+// extend app for route object mapping
+app.map = function (a, route) {
+	route = route || '';
+	for (var key in a) {
+		if (Array.isArray(a[key])) {
+			// get: [function(){ ... }]
+			app[key](route, a[key]);
+		} else if (typeof a[key] === 'object') {
+			// { '/path': { ... }}
+			app.map(a[key], route + key);
+		} else if (typeof a[key] === 'function') {
+			// get: function(){ ... }
+			app[key](route, a[key]);
+		}
+	}
+};
+
+// bootstrap api
+require('./modules')(app);
+
+
+module.exports = app;
