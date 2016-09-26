@@ -18,7 +18,7 @@ class Feature extends Component {
       let notes = time.notes.map((note)=>{
         return note.note + ', '
       })
-      return <tr>
+      return <tr key={time._id}>
         <td>{ time._id.date }</td>
         <td>{ time.totalTime }</td>
         <td>{ notes }</td>

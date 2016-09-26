@@ -18,7 +18,7 @@ class Feature extends Component {
     const times = this.props.times || [];
 
     return times.map((time, i) => {
-      return <tr>
+      return <tr key={time._id}>
         <td>{ time.note }</td>
         <td>{ time.date }</td>
         <td>{ time.spent }</td>

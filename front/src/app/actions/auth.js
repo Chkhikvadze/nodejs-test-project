@@ -27,10 +27,11 @@ export function signupUser(props) {
   return function (dispatch) {
     axios.post(`${API_URL}/auth/sign_up`, props)
       .then((response) => {
-        console.log(response)
-        // localStorage.setItem('access', JSON.stringify(response.data.data));
+        localStorage.setItem('access', JSON.stringify(response.data.data));
 
-        browserHistory.push(`/signin`);
+        dispatch({ type: AUTH_USER });
+
+        browserHistory.push(`/times`);
       })
       .catch(response => dispatch(authError(SIGNUP_FAILURE, response.data.error)));
   }

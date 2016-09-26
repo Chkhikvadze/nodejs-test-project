@@ -4,7 +4,7 @@ module.exports = {
 	port: 9000,
 
 	database: {
-		connection: 'mongodb://localhost:27017/testDb'
+		connection: 'mongodb://localhost:27017/testnodejsdb'
 	},
 
 	auth: {

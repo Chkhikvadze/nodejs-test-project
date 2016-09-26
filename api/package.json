@@ -11,7 +11,8 @@
 	},
 	"author": "Giga Solution",
 	"scripts": {
-		"start": "nodemon ./app/bin/www",
+		"dev": "nodemon ./bin/www",
+		"start": "NODE_ENV=production PORT=9000 pm2 start ./bin/www --name server",
 		"test": "NODE_ENV=testing ./node_modules/mocha/bin/_mocha",
 		"lint": "eslint . --quiet"
 	},

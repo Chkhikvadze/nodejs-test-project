@@ -98,7 +98,7 @@ export function createTime(props) {
   }
 }
 
-export function updatTime(id, props) {
+export function updateTime(id, props) {
   const access = JSON.parse(localStorage.getItem('access'));
   return function (dispatch) {
     axios({

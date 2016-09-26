@@ -29,8 +29,6 @@ class TimeEditForm extends Component {
   render() {
     const { handleSubmit, fields: { note, date, spent } } = this.props;
 
-
-
     return (
       <div className="form-container">
         <h1>Sign up</h1>
@@ -89,7 +87,7 @@ function validate(props) {
 
 function mapStateToProps(state) {
   return { errorMessage: state.auth.error,
-          editTime : state.time.editTime};
+    initialValues : state.time.editTime};
 }
 
 export default reduxForm({
