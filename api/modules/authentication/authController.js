@@ -8,7 +8,7 @@ module.exports = {
 };
 
 function sign_in(req, res) {
-	var username = req.body.username;
+	var username = req.body.email;
 	var password = req.body.password;
 	if (!username || !password) return res.badRequest();
 
@@ -19,7 +19,7 @@ function sign_in(req, res) {
 			if (!user.validatePassword(password)) return res.badRequest();
 
 			res.ok({
-				access_token: jwtService(req.app.settings.configuration).sign({id: user.id}),
+				access_token: jwtService(req.app.settings.configuration.jwt).sign({id: user.id}),
 				user: user.toJSON()
 			});
 		}).catch(res.badRequest);

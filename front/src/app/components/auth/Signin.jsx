@@ -29,9 +29,6 @@ class Signin extends Component {
             <input type="password" placeholder="password" {...password} />
             { password.touched && <div className="form-error">{ password.error }</div> }
           </div>
-          <div className="password-forgot">
-            <Link to="/reset-password">I forgot my password</Link>
-          </div>
           {
             this.props.errorMessage && this.props.errorMessage.signin &&
               <div className="error-container signin-error">Oops! { this.props.errorMessage.signin }</div>

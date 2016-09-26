@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var TimeModel = require('./timeModel');
-
+var mongoose = require('mongoose');
 
 module.exports = {
 	find_or_four0four: find_or_four0four,
@@ -23,6 +23,7 @@ function find_or_four0four(req, res, done) {
 
 function create(req, res) {
 	var time = new TimeModel(req.body);
+	time.user = req.user.id;
 	time.save()
 		.then(res.created)
 		.catch(res.badRequest);
@@ -35,6 +36,7 @@ function report(req, res) {
 	var query =
 		[{
 			$match: {
+				'user' : mongoose.Types.ObjectId(req.user.id)
 				// 'date': {$gte: startDate, $lt: endDate}
 			}
 		},
@@ -61,7 +63,7 @@ function report(req, res) {
 function read(req, res) {
 	var fieldsToSelect = 'note spent date';
 
-	TimeModel.find()
+	TimeModel.find({user : req.user.id})
 		.select(fieldsToSelect)
 		.sort('date')
 		.then(res.ok)

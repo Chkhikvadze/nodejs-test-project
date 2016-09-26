@@ -28,9 +28,9 @@ export function signupUser(props) {
     axios.post(`${API_URL}/auth/sign_up`, props)
       .then((response) => {
         console.log(response)
-        localStorage.setItem('access', JSON.stringify(response.data.data));
+        // localStorage.setItem('access', JSON.stringify(response.data.data));
 
-        browserHistory.push(`/times`);
+        browserHistory.push(`/signin`);
       })
       .catch(response => dispatch(authError(SIGNUP_FAILURE, response.data.error)));
   }
