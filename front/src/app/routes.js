@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import App from './components/App';
+import App from './components/app';
 import TimeList from './components/times/TimeList';
 import Report from './components/times/Report';
 import TimeEditForm from './components/times/TimeEditForm';

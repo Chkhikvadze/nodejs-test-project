@@ -20,7 +20,7 @@ import {
 export default function (state = {}, action) {
   switch (action.type) {
     case FETCH_TIMES:
-      return {...state, list: action.payload};
+      return {...state, list: action.payload, editTime : null};
     case FETCH_TIME:
       return {...state, editTime: action.payload};
     case FETCH_REPORT:
@@ -30,7 +30,7 @@ export default function (state = {}, action) {
     case CREATE_TIME_FAIL:
       return {...state, success: false, error: {time: action.payload}};
     case UPDATE_TIME_SUCCESS:
-      return {...state, success: true, error: {}};
+      return {...state, success: true, error: {}, editTime : null};
     case UPDATE_TIME_FAIL:
       return {...state, success: false, error: {time: action.payload}};
     case DELETE_TIME_SUCCESS:

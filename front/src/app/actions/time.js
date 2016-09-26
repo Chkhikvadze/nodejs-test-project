@@ -35,8 +35,6 @@ export function fetchTimes() {
   return function (dispatch) {
     axios.get(`${API_URL}/time`, { headers: { authorization: access.access_token } })
       .then(response => {
-        console.log("moddd")
-        console.log(response)
         dispatch({
           type: FETCH_TIMES,
           payload: response.data.data,
