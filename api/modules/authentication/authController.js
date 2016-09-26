@@ -12,36 +12,43 @@ function sign_in(req, res) {
 	var password = req.body.password;
 	if (!username || !password) return res.badRequest();
 
-	User.findOneByAnyEmailOrUsername(username)
+	User.findOneByEmail(username)
 		.then(function (user) {
 			if (!user) return res.notFound();
 			// check password
 			if (!user.validatePassword(password)) return res.badRequest();
 
 			res.ok({
-				access_token: jwtService(req.app.settings.configuration.jwt).sign({id: user.id}),
+				access_token: jwtService(req.app.settings.configuration).sign({id: user.id}),
 				user: user.toJSON()
 			});
 		}).catch(res.badRequest);
 }
 
 function sign_up(req, res) {
-	var username = req.body.username;
 	var email = req.body.email;
 	var password = req.body.password;
-	if (!username || !password || !email) return res.badRequest();
+	if (!password || !email) return res.badRequest();
 
-	User.findOne()
-		.or([{username: username}, {email: email}])
+	User.findOne({email: email})
 		.then(function (user) {
 			if (user) return res.badRequest(null, null, 'User already exists!');
 
 			var newUser = new User();
 			newUser.email = email;
-			newUser.username = username;
 			newUser.password = newUser.generateHash(password);
-			res.created(newUser);
-		}).catch(res.badRequest);
+			newUser.profile.firstName = (req.body.profile || {}).firstName;
+			newUser.profile.lastName = (req.body.profile || {}).lastName;
+			return newUser.save().then(function(userCreated){
+				var result = {
+					access_token: jwtService(req.app.settings.configuration.jwt).sign({id: userCreated.id}),
+					user: userCreated.toJSON()
+				}
+				res.created(result)
+			});
+		}).catch(function (err){
+		res.badRequest(err)
+	});
 }
 
 function refresh_token(req, res) {

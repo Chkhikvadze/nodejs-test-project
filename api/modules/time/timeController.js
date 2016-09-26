@@ -8,7 +8,8 @@ module.exports = {
 	read: read,
 	get: get,
 	update: update,
-	remove: remove
+	remove: remove,
+	report: report
 };
 
 function find_or_four0four(req, res, done) {
@@ -27,8 +28,38 @@ function create(req, res) {
 		.catch(res.badRequest);
 }
 
+function report(req, res) {
+	var startDate = req.body.startDate;
+	var endDate = req.body.endDate;
+
+	var query =
+		[{
+			$match: {
+				// 'date': {$gte: startDate, $lt: endDate}
+			}
+		},
+			{
+				"$group": {
+					_id: {
+						date: '$date',
+					},
+					totalTime: { $sum: "$spent" },
+					notes: {$push: {note: "$note"}}
+				}
+			}
+		];
+
+	TimeModel
+		.aggregate(query)
+		.exec()
+		.then((result) => {
+			res.ok(result);
+		})
+		.catch(res.badRequest);
+}
+
 function read(req, res) {
-	var fieldsToSelect = 'note totalTime date';
+	var fieldsToSelect = 'note spent date';
 
 	TimeModel.find()
 		.select(fieldsToSelect)

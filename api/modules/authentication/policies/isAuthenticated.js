@@ -27,10 +27,6 @@ function isAuthenticated(req, res, next) {
 			if (!user) {
 				return res.unauthorized();
 			}
-			// check if account is active
-			if (!user.account.active) {
-				return res.notActiveUser();
-			}
 
 			req.user = user;
 			next();

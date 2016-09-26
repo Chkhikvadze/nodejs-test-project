@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 // define the schema for our user model
 var timeSchema = new mongoose.Schema({
 	note: String,
-	date: String,
-	totalTime: String,
+	date : String,
+	spent: Number,
 	createDate: {type: Date, default: Date.now()},
 	user: {
 		type: mongoose.Schema.Types.ObjectId, ref: 'User'

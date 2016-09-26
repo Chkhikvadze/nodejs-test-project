@@ -12,6 +12,9 @@ module.exports = {
 				put: [isAuthenticated, TimeController.update],
 				delete: [isAuthenticated, TimeController.remove]
 			}
+		},
+		'/report' : {
+			get: [isAuthenticated, TimeController.report]
 		}
 	}
 };

@@ -5,16 +5,7 @@ var mongoose = require('mongoose');
 var userSchema = new mongoose.Schema({
 	profile: {
 		firstName: String,
-		lastName: String,
-		avatar: String
-	},
-	username: {
-		type: String,
-		trim: true,
-		unique: true,
-		sparse: true,
-		index: true,
-		required: true
+		lastName: String
 	},
 	email: {
 		type: String,
@@ -73,10 +64,9 @@ userSchema.methods.toJSON = function () {
 	return obj;
 };
 
-userSchema.statics.findOneByAnyEmailOrUsername = function (val) {
+userSchema.statics.findOneByEmail = function (val) {
 	return this
-		.findOne()
-		.or([{username: val}, {email: val}]);
+		.findOne({email: val});
 };
 
 // create the model and expose it to our app
