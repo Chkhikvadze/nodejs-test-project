@@ -52,6 +52,7 @@ export function fetchReport() {
   return function (dispatch) {
     axios.get(`${API_URL}/report`, { headers: { authorization: access.access_token } })
       .then(response => {
+        console.log(response)
         dispatch({
           type: FETCH_REPORT,
           payload: response.data.data,
