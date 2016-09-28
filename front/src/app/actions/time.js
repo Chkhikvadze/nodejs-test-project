@@ -46,13 +46,14 @@ export function fetchTimes() {
 /**
  * Fetch all time
  */
-export function fetchReport() {
+export function fetchReport(fromDate, toDate) {
   const access = JSON.parse(localStorage.getItem('access'));
 
+  var query = `dateFrom=${fromDate}&dateTo=${toDate}`;
+
   return function (dispatch) {
-    axios.get(`${API_URL}/report`, { headers: { authorization: access.access_token } })
+    axios.get(`${API_URL}/report?` + query, { headers: { authorization: access.access_token } })
       .then(response => {
-        console.log(response)
         dispatch({
           type: FETCH_REPORT,
           payload: response.data.data,

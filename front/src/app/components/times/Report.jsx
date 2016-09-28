@@ -6,8 +6,16 @@ import {Link} from 'react-router';
 import styles from './times.scss';
 
 class Feature extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dateFrom : Date.now(),
+      dateTo : Date.now()
+    }
+  }
+
   componentWillMount() {
-    this.props.fetchReport();
   }
 
   renderTimes() {
@@ -26,11 +34,27 @@ class Feature extends Component {
     })
   }
 
+  handleReport(){
+    this.props.fetchReport(this.state.dateFrom, this.state.dateTo);
+  }
+
+  changeFrom(e){
+    this.setState({ dateFrom: e.target.value }) //set state value to the input value
+  }
+
+  changeTo(e){
+    this.setState({ dateTo: e.target.value }) //set state value to the input value
+  }
 
   render() {
     return (
-      <div className="content times">
+      <div className="content">
         <p>Report</p>
+        <div className="filter">
+          <input type="date" placeholder="Date From" value={this.state.dateFrom} onChange={this.changeFrom.bind(this)}/>
+          <input type="date" placeholder="Date To"  value={this.state.dateTo} onChange={this.changeTo.bind(this)}/>
+          <button onClick={this.handleReport.bind(this)}>Filter</button>
+        </div>
         <table style={{width: '100%'}}>
           <tr>
             <td>Date</td>

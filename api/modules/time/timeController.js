@@ -30,14 +30,14 @@ function create(req, res) {
 }
 
 function report(req, res) {
-	var startDate = req.body.startDate;
-	var endDate = req.body.endDate;
+	var dateFrom = req.query.dateFrom;
+	var dateTo = req.query.dateTo;
 
 	var query =
 		[{
 			$match: {
-				'user' : mongoose.Types.ObjectId(req.user.id)
-				// 'date': {$gte: startDate, $lt: endDate}
+				'user' : mongoose.Types.ObjectId(req.user.id),
+				'date': {$gte: dateFrom, $lt: dateTo}
 			}
 		},
 			{
